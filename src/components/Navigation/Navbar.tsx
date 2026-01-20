@@ -1,12 +1,14 @@
 import { BookOpen } from 'lucide-react';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { QuickSearch } from '../Search/QuickSearch';
+import type { SearchResult } from '../../types';
 
 interface NavbarProps {
   onSearchResults?: (results: unknown[]) => void;
+  onResultSelect?: (result: SearchResult) => void;
 }
 
-export function Navbar({ onSearchResults }: NavbarProps) {
+export function Navbar({ onSearchResults, onResultSelect }: NavbarProps) {
   return (
     <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3">
@@ -26,7 +28,7 @@ export function Navbar({ onSearchResults }: NavbarProps) {
           </div>
 
           <div className="flex-1 max-w-md">
-            <QuickSearch onResultsChange={onSearchResults} />
+            <QuickSearch onResultsChange={onSearchResults} onResultSelect={onResultSelect} />
           </div>
 
           <ThemeToggle />

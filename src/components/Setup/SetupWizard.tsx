@@ -78,6 +78,7 @@ export function SetupWizard() {
           return (
             <div
               key={step.step}
+              id={`setup-${step.step}`}
               className={`
                 bg-white dark:bg-gray-800 rounded-lg border transition-all cursor-pointer
                 ${

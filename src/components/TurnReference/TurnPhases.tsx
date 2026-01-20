@@ -77,6 +77,7 @@ export function TurnPhases() {
           return (
             <Collapsible
               key={phase.id}
+              id={phase.id}
               title={`${phase.order}. ${phase.name}`}
               icon={<Icon className="w-5 h-5" />}
               badge={`${phase.actions.length} действий`}

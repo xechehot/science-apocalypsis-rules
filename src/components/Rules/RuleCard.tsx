@@ -8,6 +8,7 @@ interface RuleCardProps {
 export function RuleCard({ rule }: RuleCardProps) {
   return (
     <div
+      id={rule.id}
       className={`
         bg-white dark:bg-gray-800 rounded-lg border p-4
         ${
