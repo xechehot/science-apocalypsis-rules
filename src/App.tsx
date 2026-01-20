@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navigation/Navbar';
 import { CategoryTabs } from './components/Navigation/CategoryTabs';
@@ -8,10 +8,38 @@ import { TurnPhases } from './components/TurnReference/TurnPhases';
 import { RulesSection } from './components/Rules/RuleCategory';
 import { GlossaryList } from './components/Glossary/GlossaryList';
 import { ErrataList } from './components/Errata/ErrataList';
-import type { TabId } from './types';
+import type { TabId, SearchResult } from './types';
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState<TabId>('overview');
+
+  const handleSearchResultSelect = useCallback((result: SearchResult) => {
+    // Map search result type to tab
+    const typeToTab: Record<SearchResult['type'], TabId> = {
+      rule: 'rules',
+      glossary: 'glossary',
+      setup: 'setup',
+      phase: 'turn',
+      exception: 'rules',
+      tip: 'overview'
+    };
+
+    const targetTab = typeToTab[result.type];
+    setActiveTab(targetTab);
+
+    // Scroll to the element after tab switch
+    setTimeout(() => {
+      const element = document.getElementById(result.id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Add a highlight effect
+        element.classList.add('ring-2', 'ring-rose-500', 'ring-offset-2');
+        setTimeout(() => {
+          element.classList.remove('ring-2', 'ring-rose-500', 'ring-offset-2');
+        }, 2000);
+      }
+    }, 100);
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -34,7 +62,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+      <Navbar onResultSelect={handleSearchResultSelect} />
       <CategoryTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       <main className="max-w-6xl mx-auto px-4 py-6">
