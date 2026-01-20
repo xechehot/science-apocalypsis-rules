@@ -11,7 +11,7 @@ export const gameRulesData: GameRulesData = {
   winCondition: {
     collective: "Трек Просветления достиг значения 12",
     loss: "Любой из треков Прогресса достиг значения 13",
-    individual: "Игрок с наибольшим количеством авторитета при достижении победы"
+    individual: "Игрок с наибольшим количеством авторитета при достижении победы (при равенстве — по связям, затем по капиталу, затем честный бой)"
   },
 
   setup: [
@@ -43,28 +43,29 @@ export const gameRulesData: GameRulesData = {
     },
     {
       step: 7,
-      instruction: "Возьмите стартового агента, указанного на карточке вашей фракции"
-    },
-    {
-      step: 8,
       instruction: "Возьмите по одному жетону войны, эпидемии и голода. Положите их в случайном порядке на значения трека Просветления: 7, 9, 11"
     },
     {
+      step: 8,
+      instruction: "Возьмите стартового агента, указанного на карточке вашей фракции"
+    },
+    {
       step: 9,
-      instruction: "Положите в каждый регион один из жетонов бонусов профессий случайным образом"
-    },
-    {
-      step: 10,
-      instruction: "Установите стартовые значения Прогресса и Просветления на карте мира — по умолчанию всё на отметке 4"
-    },
-    {
-      step: 11,
       instruction: "Определите первого игрока жребием или по гороскопу"
     },
     {
-      step: 12,
+      step: 10,
+      instruction: "Положите в каждый регион один из жетонов бонусов профессий случайным образом",
+      note: "Если задание требует данную профессию, агент в этом регионе получает +1 ко всем проверкам"
+    },
+    {
+      step: 11,
       instruction: "Выложите на стол особую карту Короны",
       note: "Корона передаётся игроку с наибольшим авторитетом"
+    },
+    {
+      step: 12,
+      instruction: "Установите стартовые значения Прогресса и Просветления на карте мира — по умолчанию всё на отметке 4"
     }
   ],
 
@@ -123,7 +124,7 @@ export const gameRulesData: GameRulesData = {
     {
       id: "psychopathy",
       term: "Психопатия (П)",
-      definition: "Решительность и смелость в борьбе с Мировым Правительством, способность дать в око за око.",
+      definition: "Решительность и смелость в борьбе с Мировым Правительством, способность дать в око за око или даже просто так.",
       category: "characteristic"
     },
 
@@ -149,13 +150,13 @@ export const gameRulesData: GameRulesData = {
     {
       id: "investigator",
       term: "Расследователь",
-      definition: "Класс агента, раскрывающий заговоры и находящий истину.",
+      definition: "Класс агента, раскрывающий заговоры и находящий истину. Иногда их называют предсказатель-конспирологами.",
       category: "class"
     },
     {
-      id: "predictor",
-      term: "Предсказатель",
-      definition: "Класс агента, способный предвидеть будущее.",
+      id: "leader",
+      term: "Лидер",
+      definition: "Класс агента, ведущий за собой и влияющий на других.",
       category: "class"
     },
 
@@ -397,7 +398,7 @@ export const gameRulesData: GameRulesData = {
         ],
         notes: [
           "Жетоны Ватикана снимаются при достижении порогов Прогресса",
-          "При снятии жетона Ватикана — разыграть карту Ватикана"
+          "При снятии жетона Ватикана — разыграть карту Ватикана и убрать случайный жетон соответствующего бедствия"
         ]
       },
       {
@@ -429,15 +430,15 @@ export const gameRulesData: GameRulesData = {
     { id: "charisma", name: "Харизма", abbreviation: "Х", description: "Убеждение и лидерство" },
     { id: "narcissism", name: "Нарциссизм", abbreviation: "Н", description: "Уверенность в себе" },
     { id: "machiavellianism", name: "Макиавеллизм", abbreviation: "М", description: "Хитрость и манипуляции" },
-    { id: "psychopathy", name: "Психопатия", abbreviation: "П", description: "Решительность и жёсткость" }
+    { id: "psychopathy", name: "Психопатия", abbreviation: "П", description: "Решительность и смелость в борьбе с Мировым Правительством" }
   ],
 
   agentClasses: [
     { id: "spiritual-leader", name: "Духовный лидер", description: "Ведёт за собой в духовном плане" },
     { id: "real-scientist", name: "Настоящий учёный", description: "Знает истинную науку" },
+    { id: "leader", name: "Лидер", description: "Умеет убеждать и вести за собой" },
     { id: "healer", name: "Целитель", description: "Практикует альтернативную медицину" },
-    { id: "investigator", name: "Расследователь", description: "Раскрывает заговоры" },
-    { id: "predictor", name: "Предсказатель", description: "Видит будущее" }
+    { id: "investigator", name: "Расследователь", description: "Раскрывает заговоры" }
   ],
 
   resources: [
@@ -552,14 +553,14 @@ export const gameRulesData: GameRulesData = {
       category: "agents",
       title: "Лимит агентов",
       content: "Одновременно можно иметь до 4 агентов. При покупке пятого можно «уволить» одного агента (он идёт в сброс, вы теряете 1 связь).",
-      pageReference: 11
+      pageReference: 14
     },
     {
       id: "agent-loss",
       category: "agents",
       title: "Потеря агента",
       content: "Потерянные агенты удаляются из игры окончательно. Их усиления отправляются в сброс.",
-      pageReference: 9,
+      pageReference: 12,
       isImportant: true
     },
     {
@@ -567,14 +568,14 @@ export const gameRulesData: GameRulesData = {
       category: "agents",
       title: "Агенты на заданиях",
       content: "Вы можете отправить не более двух агентов на задания за раунд.",
-      pageReference: 7
+      pageReference: 10
     },
     {
       id: "no-agents",
       category: "agents",
       title: "Нет агентов",
       content: "Если у вас не осталось агентов: в начале раунда потеряйте 1 авторитет, возьмите случайного агента из колоды, получите 2 связи и 1 капитал.",
-      pageReference: 11
+      pageReference: 14
     },
 
     // Helper Rules
@@ -583,7 +584,7 @@ export const gameRulesData: GameRulesData = {
       category: "agents",
       title: "Эффекты помощников",
       content: "Помощники влияют только способностью помощника. Они НЕ получают негативных или позитивных эффектов от задания, НЕ проходят проверки, НЕ тянут карты бедствий.",
-      pageReference: 11,
+      pageReference: 14,
       isException: true,
       isImportant: true
     },
@@ -592,7 +593,7 @@ export const gameRulesData: GameRulesData = {
       category: "agents",
       title: "Лимит помощников",
       content: "По умолчанию у агента не может быть больше трёх помощников.",
-      pageReference: 7
+      pageReference: 10
     },
 
     // Check Rules
@@ -601,21 +602,21 @@ export const gameRulesData: GameRulesData = {
       category: "checks",
       title: "Успех проверки",
       content: "Успехом считается результат 5 или 6 на шестигранном кубике. Проверки обозначаются как (характеристика | сложность).",
-      pageReference: 13
+      pageReference: 17
     },
     {
       id: "critical-success",
       category: "checks",
       title: "Критический успех",
       content: "Если количество успехов больше требуемого — это критический успех. Награда за критический успех добавляется к обычной награде.",
-      pageReference: 14
+      pageReference: 17
     },
     {
       id: "modifier-stacking",
       category: "checks",
       title: "Суммирование модификаторов",
       content: "Одинаковые бонусы от разных усилений НЕ складываются — учитывается только наибольший. То же для штрафов. Бонусы от жетонов, усилений, агентов и регионов складываются.",
-      pageReference: 15,
+      pageReference: 18,
       isImportant: true
     },
     {
@@ -623,7 +624,7 @@ export const gameRulesData: GameRulesData = {
       category: "checks",
       title: "Встречная проверка",
       content: "Оба участника бросают проверку. Победитель — кто выбросил больше успехов. При равенстве — перебросьте. Защищающаяся сторона может выбрать провалить проверку.",
-      pageReference: 14
+      pageReference: 17
     },
 
     // Enhancement Rules
@@ -632,14 +633,14 @@ export const gameRulesData: GameRulesData = {
       category: "enhancements",
       title: "Лимит усилений",
       content: "По умолчанию у агента не может быть больше четырёх усилений. Некоторые усиления не учитываются при подсчёте.",
-      pageReference: 16
+      pageReference: 19
     },
     {
       id: "enhancement-others",
       category: "enhancements",
       title: "Усиления чужим агентам",
       content: "Усиления можно подкладывать чужим агентам. Если агент заработал усиление на задании, вы всё равно решаете, кому его дать.",
-      pageReference: 16
+      pageReference: 19
     },
 
     // Task Rules
@@ -648,14 +649,14 @@ export const gameRulesData: GameRulesData = {
       category: "tasks",
       title: "Оплата задания",
       content: "При размещении агента вы должны немедленно оплатить стоимость задания.",
-      pageReference: 7
+      pageReference: 10
     },
     {
       id: "atlantis-tasks",
       category: "tasks",
       title: "Поиск Атлантиды",
       content: "Задания Атлантиды всегда бесплатны. Не дают бонус региона к проверкам, но получают бонусы/штрафы региона при завершении.",
-      pageReference: 17
+      pageReference: 20
     },
 
     // Crisis Rules
@@ -664,7 +665,7 @@ export const gameRulesData: GameRulesData = {
       category: "tasks",
       title: "Правила кризисов",
       content: "Кризисы остаются в игре, пока не будут закрыты. Негативный эффект срабатывает каждый раунд. Выполнить кризис может любой игрок.",
-      pageReference: 18,
+      pageReference: 21,
       isImportant: true
     },
     {
@@ -672,7 +673,7 @@ export const gameRulesData: GameRulesData = {
       category: "tasks",
       title: "Кризис и миссии",
       content: "Игрок с кризисом не получает обязательную карту миссии, но может взять миссию из 3 добираемых карт.",
-      pageReference: 18
+      pageReference: 21
     },
 
     // Disaster Rules
@@ -681,21 +682,21 @@ export const gameRulesData: GameRulesData = {
       category: "disasters",
       title: "Прохождение бедствий",
       content: "Если в регионе есть жетон бедствия, агент должен взять и пройти карту бедствия ПЕРЕД заданием.",
-      pageReference: 20
+      pageReference: 23
     },
     {
       id: "multiple-disasters",
       category: "disasters",
       title: "Несколько одинаковых бедствий",
       content: "Несколько одинаковых жетонов бедствий дают -1 к проверкам карты этого бедствия. Вторую карту тянуть не нужно.",
-      pageReference: 20
+      pageReference: 23
     },
     {
       id: "disaster-spawn",
       category: "disasters",
       title: "Появление бедствий",
       content: "Когда Просветление достигает жетона бедствия — выложите этот жетон в случайный регион.",
-      pageReference: 8
+      pageReference: 11
     },
 
     // Vatican Rules
@@ -704,14 +705,14 @@ export const gameRulesData: GameRulesData = {
       category: "vatican",
       title: "Срабатывание Ватикана",
       content: "Когда Прогресс достигает жетона Ватикана (6, 8, 10, 12), уберите жетон и разыграйте карту Ватикана. Также уберите соответствующее бедствие.",
-      pageReference: 21
+      pageReference: 24
     },
     {
       id: "vatican-resolution",
       category: "vatican",
       title: "Разрешение карты Ватикана",
       content: "По очереди игроки решают: платить, проходить проверку или пропустить. При успешной оплате/проверке — событие отменено. При провале проверки — эффект срабатывает немедленно.",
-      pageReference: 21,
+      pageReference: 24,
       isImportant: true
     },
 
@@ -721,14 +722,14 @@ export const gameRulesData: GameRulesData = {
       category: "northKorea",
       title: "Северная Корея",
       content: "Отправьте агента за помощью к Великому Вождю. Первый отправивший получает право первого хода в следующем раунде.",
-      pageReference: 18
+      pageReference: 21
     },
     {
       id: "north-korea-limits",
       category: "northKorea",
       title: "Ограничения Северной Кореи",
       content: "Максимум 1 агент в Северную Корею за раунд. Нельзя отправить последнего агента. Не мешает отправить 2 агентов на обычные задания.",
-      pageReference: 18,
+      pageReference: 21,
       isException: true
     },
 
@@ -738,14 +739,14 @@ export const gameRulesData: GameRulesData = {
       category: "healing",
       title: "Лечение в Швейцарии",
       content: "Особое действие за 2 капитала. Агент переворачивается и не может действовать до конца раунда.",
-      pageReference: 19
+      pageReference: 22
     },
     {
       id: "healing-choice",
       category: "healing",
       title: "Выбор лечения",
       content: "Альтернативная медицина: бросок кубика (4-6 = полное исцеление + 1 авторитет). Официальная медицина: гарантированное исцеление, но -1 авторитет.",
-      pageReference: 19
+      pageReference: 22
     },
 
     // Trauma Rules
@@ -754,7 +755,7 @@ export const gameRulesData: GameRulesData = {
       category: "agents",
       title: "Смерть от травм",
       content: "Если агент получает вторую одинаковую травму или болезнь — он немедленно умирает и вы его теряете.",
-      pageReference: 19,
+      pageReference: 22,
       isImportant: true
     },
 
@@ -764,7 +765,7 @@ export const gameRulesData: GameRulesData = {
       category: "regions",
       title: "Бонус региона",
       content: "Регион даёт +1 к проверкам для класса агента, если он идёт на задание, требующее этой профессии. Не работает для заданий «для всех».",
-      pageReference: 20,
+      pageReference: 23,
       isException: true
     },
     {
@@ -772,7 +773,7 @@ export const gameRulesData: GameRulesData = {
       category: "regions",
       title: "Эффекты региона",
       content: "Бонусы региона не считаются полученными на задании и начисляются ПОСЛЕ завершения. Влияют только на основных агентов, не на помощников.",
-      pageReference: 20
+      pageReference: 23
     },
 
     // Dark Times Rules
@@ -781,7 +782,7 @@ export const gameRulesData: GameRulesData = {
       category: "tracks",
       title: "Тёмные времена",
       content: "Пока есть жетон Тёмных времён — все агенты получают -1 ко всем проверкам, КРОМЕ проверок бедствий. Эффекты не складываются.",
-      pageReference: 16,
+      pageReference: 19,
       isException: true,
       isImportant: true
     },
@@ -792,7 +793,7 @@ export const gameRulesData: GameRulesData = {
       category: "tracks",
       title: "Пробуждение Прогресса",
       content: "В НАЧАЛЕ РАУНДА при Прогрессе 11+ выкладывается карта кризиса Пробуждения соответствующего типа (если такой ещё нет). Максимум 3 карты (по одной каждого типа).",
-      pageReference: 21,
+      pageReference: 25,
       isImportant: true
     },
 
@@ -802,14 +803,14 @@ export const gameRulesData: GameRulesData = {
       category: "endgame",
       title: "Победа",
       content: "При Просветлении 12 побеждает игрок с наибольшим авторитетом. При равенстве — по связям, затем по капиталу, затем честный бой.",
-      pageReference: 13
+      pageReference: 16
     },
     {
       id: "defeat",
       category: "endgame",
       title: "Поражение",
       content: "Если любой Прогресс достигает 13 — все игроки проиграли. Наступает Конец Времён.",
-      pageReference: 13,
+      pageReference: 16,
       isImportant: true
     }
   ],
