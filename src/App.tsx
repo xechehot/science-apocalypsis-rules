@@ -7,6 +7,7 @@ import { SetupWizard } from './components/Setup/SetupWizard';
 import { TurnPhases } from './components/TurnReference/TurnPhases';
 import { RulesSection } from './components/Rules/RuleCategory';
 import { GlossaryList } from './components/Glossary/GlossaryList';
+import { ErrataList } from './components/Errata/ErrataList';
 import type { TabId } from './types';
 
 function AppContent() {
@@ -24,6 +25,8 @@ function AppContent() {
         return <RulesSection />;
       case 'glossary':
         return <GlossaryList />;
+      case 'errata':
+        return <ErrataList />;
       default:
         return <GameOverview />;
     }
