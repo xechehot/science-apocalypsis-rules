@@ -81,6 +81,17 @@ export interface Exception {
   priority: 'high' | 'medium' | 'low';
 }
 
+export interface Erratum {
+  id: string;
+  number: number;
+  title: string;
+  affectedItem: string;
+  itemType: 'card' | 'agent' | 'faction' | 'rule' | 'component' | 'tutorial';
+  description: string;
+  solution: string;
+  affectsGameplay: boolean;
+}
+
 export interface Tip {
   id: string;
   title: string;
@@ -148,6 +159,7 @@ export interface GameRulesData {
   rules: Rule[];
   exceptions: Exception[];
   tips: Tip[];
+  errata: Erratum[];
 }
 
 // Search result type
@@ -163,4 +175,4 @@ export interface SearchResult {
 export type Theme = 'light' | 'dark';
 
 // Navigation tab type
-export type TabId = 'overview' | 'setup' | 'turn' | 'rules' | 'glossary';
+export type TabId = 'overview' | 'setup' | 'turn' | 'rules' | 'glossary' | 'errata';

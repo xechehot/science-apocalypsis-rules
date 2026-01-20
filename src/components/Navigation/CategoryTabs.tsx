@@ -1,4 +1,4 @@
-import { Info, Settings, RotateCw, BookText, Book } from 'lucide-react';
+import { Info, Settings, RotateCw, BookText, Book, AlertTriangle } from 'lucide-react';
 import type { TabId } from '../../types';
 
 interface CategoryTabsProps {
@@ -11,7 +11,8 @@ const tabs: { id: TabId; label: string; icon: typeof Info }[] = [
   { id: 'setup', label: 'Подготовка', icon: Settings },
   { id: 'turn', label: 'Ход игры', icon: RotateCw },
   { id: 'rules', label: 'Правила', icon: BookText },
-  { id: 'glossary', label: 'Глоссарий', icon: Book }
+  { id: 'glossary', label: 'Глоссарий', icon: Book },
+  { id: 'errata', label: 'Опечатки', icon: AlertTriangle }
 ];
 
 export function CategoryTabs({ activeTab, onTabChange }: CategoryTabsProps) {
