@@ -12,6 +12,7 @@ import type { TabId, SearchResult } from './types';
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState<TabId>('overview');
+  const [scrollTargetId, setScrollTargetId] = useState<string | null>(null);
 
   const handleSearchResultSelect = useCallback((result: SearchResult) => {
     // Map search result type to tab
@@ -26,19 +27,11 @@ function AppContent() {
 
     const targetTab = typeToTab[result.type];
     setActiveTab(targetTab);
+    setScrollTargetId(result.id);
+  }, []);
 
-    // Scroll to the element after tab switch
-    setTimeout(() => {
-      const element = document.getElementById(result.id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        // Add a highlight effect
-        element.classList.add('ring-2', 'ring-rose-500', 'ring-offset-2');
-        setTimeout(() => {
-          element.classList.remove('ring-2', 'ring-rose-500', 'ring-offset-2');
-        }, 2000);
-      }
-    }, 100);
+  const handleScrollComplete = useCallback(() => {
+    setScrollTargetId(null);
   }, []);
 
   const renderContent = () => {
@@ -50,7 +43,7 @@ function AppContent() {
       case 'turn':
         return <TurnPhases />;
       case 'rules':
-        return <RulesSection />;
+        return <RulesSection scrollTargetId={scrollTargetId} onScrollComplete={handleScrollComplete} />;
       case 'glossary':
         return <GlossaryList />;
       case 'errata':
