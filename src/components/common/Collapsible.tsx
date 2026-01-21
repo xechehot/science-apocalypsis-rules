@@ -1,10 +1,12 @@
-import { useState, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 
 interface CollapsibleProps {
   title: string;
   children: ReactNode;
   defaultOpen?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   badge?: string;
   badgeColor?: string;
   icon?: ReactNode;
@@ -16,18 +18,38 @@ export function Collapsible({
   title,
   children,
   defaultOpen = false,
+  open: controlledOpen,
+  onOpenChange,
   badge,
   badgeColor = 'bg-gray-500',
   icon,
   className = '',
   id
 }: CollapsibleProps) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const isControlled = controlledOpen !== undefined;
+  const isOpen = isControlled ? controlledOpen : internalOpen;
+
+  useEffect(() => {
+    if (!isControlled && defaultOpen !== internalOpen && defaultOpen) {
+      setInternalOpen(defaultOpen);
+    }
+  }, [defaultOpen]);
+
+  const handleToggle = () => {
+    const newOpen = !isOpen;
+    if (isControlled) {
+      onOpenChange?.(newOpen);
+    } else {
+      setInternalOpen(newOpen);
+      onOpenChange?.(newOpen);
+    }
+  };
 
   return (
     <div id={id} className={`border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden ${className}`}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         className="w-full flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
       >
         <div className="flex items-center gap-3">

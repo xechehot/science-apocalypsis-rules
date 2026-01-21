@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { gameRulesData } from '../../data/gameRules';
 import { RuleCard } from './RuleCard';
 import { Collapsible } from '../common/Collapsible';
 import { AlertTriangle } from 'lucide-react';
 import type { RuleCategory as RuleCategoryType } from '../../types';
+
+interface RulesSectionProps {
+  scrollTargetId?: string | null;
+  onScrollComplete?: () => void;
+}
 
 const categoryLabels: Record<RuleCategoryType, string> = {
   agents: 'Агенты',
@@ -35,19 +40,87 @@ const categoryOrder: RuleCategoryType[] = [
   'endgame'
 ];
 
-export function RulesSection() {
+export function RulesSection({ scrollTargetId, onScrollComplete }: RulesSectionProps) {
   const [activeCategory, setActiveCategory] = useState<RuleCategoryType | 'all' | 'exceptions'>('all');
+  const [expandedCategories, setExpandedCategories] = useState<Set<RuleCategoryType>>(new Set(['agents']));
 
   // Group rules by category
-  const rulesByCategory = gameRulesData.rules.reduce((acc, rule) => {
+  const rulesByCategory = useMemo(() => gameRulesData.rules.reduce((acc, rule) => {
     if (!acc[rule.category]) {
       acc[rule.category] = [];
     }
     acc[rule.category].push(rule);
     return acc;
-  }, {} as Record<RuleCategoryType, typeof gameRulesData.rules>);
+  }, {} as Record<RuleCategoryType, typeof gameRulesData.rules>), []);
 
   const categories = categoryOrder.filter(cat => rulesByCategory[cat]?.length > 0);
+
+  // Find category for a rule by its ID
+  const findCategoryForRule = (ruleId: string): RuleCategoryType | null => {
+    const rule = gameRulesData.rules.find(r => r.id === ruleId);
+    return rule?.category || null;
+  };
+
+  // Handle scroll target
+  useEffect(() => {
+    if (!scrollTargetId) return;
+
+    // Check if it's an exception (in the "Ключевые исключения" section)
+    const isException = gameRulesData.exceptions.some(e => e.id === scrollTargetId);
+
+    if (isException) {
+      // Exceptions are always visible when activeCategory is 'all'
+      setActiveCategory('all');
+      // Scroll to the element
+      setTimeout(() => {
+        const element = document.getElementById(scrollTargetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          element.classList.add('ring-2', 'ring-rose-500', 'ring-offset-2');
+          setTimeout(() => {
+            element.classList.remove('ring-2', 'ring-rose-500', 'ring-offset-2');
+          }, 2000);
+        }
+        onScrollComplete?.();
+      }, 100);
+      return;
+    }
+
+    // Find the category for the rule
+    const category = findCategoryForRule(scrollTargetId);
+    if (category) {
+      // Ensure we're in 'all' view and expand the right category
+      setActiveCategory('all');
+      setExpandedCategories(prev => new Set([...prev, category]));
+
+      // Scroll to the element after expansion
+      setTimeout(() => {
+        const element = document.getElementById(scrollTargetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          element.classList.add('ring-2', 'ring-rose-500', 'ring-offset-2');
+          setTimeout(() => {
+            element.classList.remove('ring-2', 'ring-rose-500', 'ring-offset-2');
+          }, 2000);
+        }
+        onScrollComplete?.();
+      }, 100);
+    } else {
+      onScrollComplete?.();
+    }
+  }, [scrollTargetId, onScrollComplete]);
+
+  const handleCategoryToggle = (category: RuleCategoryType, open: boolean) => {
+    setExpandedCategories(prev => {
+      const next = new Set(prev);
+      if (open) {
+        next.add(category);
+      } else {
+        next.delete(category);
+      }
+      return next;
+    });
+  };
 
   const filteredRules =
     activeCategory === 'all'
@@ -110,7 +183,7 @@ export function RulesSection() {
           </h4>
           <ul className="mt-2 space-y-1">
             {gameRulesData.exceptions.filter(e => e.priority === 'high').map(exc => (
-              <li key={exc.id} className="text-sm text-red-700 dark:text-red-300">
+              <li key={exc.id} id={exc.id} className="text-sm text-red-700 dark:text-red-300">
                 <strong>{exc.rule}:</strong> {exc.exception}
               </li>
             ))}
@@ -128,7 +201,8 @@ export function RulesSection() {
               title={categoryLabels[cat]}
               badge={`${rulesByCategory[cat].length}`}
               badgeColor="bg-gray-500"
-              defaultOpen={cat === 'agents'}
+              open={expandedCategories.has(cat)}
+              onOpenChange={(open) => handleCategoryToggle(cat, open)}
             >
               <div className="space-y-3">
                 {rulesByCategory[cat].map(rule => (
