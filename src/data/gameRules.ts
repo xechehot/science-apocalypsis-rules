@@ -992,7 +992,7 @@ export const gameRulesData: GameRulesData = {
     {
       id: "exc-north-korea",
       rule: "Северная Корея",
-      exception: "Нельзя отправить последнего агента. Максимум 1 агент за раунд.",
+      exception: "Нельзя, если вам принадлежит только 1 агент. Максимум 1 агент за раунд на игрока.",
       priority: "medium"
     },
     {
