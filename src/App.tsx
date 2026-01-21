@@ -45,7 +45,7 @@ function AppContent() {
       case 'rules':
         return <RulesSection scrollTargetId={scrollTargetId} onScrollComplete={handleScrollComplete} />;
       case 'glossary':
-        return <GlossaryList />;
+        return <GlossaryList scrollTargetId={scrollTargetId} onScrollComplete={handleScrollComplete} />;
       case 'errata':
         return <ErrataList />;
       default:
