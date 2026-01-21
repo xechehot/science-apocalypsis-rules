@@ -74,7 +74,7 @@ export function QuickSearch({ onResultsChange, onResultSelect }: QuickSearchProp
         <input
           ref={inputRef}
           type="text"
-          placeholder="Поиск по правилам..."
+          placeholder="Поиск..."
           value={query}
           onChange={e => {
             setQuery(e.target.value);
@@ -97,7 +97,7 @@ export function QuickSearch({ onResultsChange, onResultSelect }: QuickSearchProp
       </div>
 
       {isOpen && query && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
+        <div className="fixed sm:absolute left-4 right-4 sm:left-0 sm:right-0 top-14 sm:top-full sm:mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
           {results.length === 0 ? (
             <div className="p-4 text-center text-gray-500">
               Ничего не найдено
