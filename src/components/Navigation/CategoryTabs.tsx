@@ -12,7 +12,7 @@ const tabs: { id: TabId; label: string; icon: typeof Info }[] = [
   { id: 'turn', label: 'Ход игры', icon: RotateCw },
   { id: 'rules', label: 'Правила', icon: BookText },
   { id: 'glossary', label: 'Глоссарий', icon: Book },
-  { id: 'errata', label: 'Опечатки', icon: AlertTriangle }
+  { id: 'errata', label: 'Исправления', icon: AlertTriangle }
 ];
 
 export function CategoryTabs({ activeTab, onTabChange }: CategoryTabsProps) {

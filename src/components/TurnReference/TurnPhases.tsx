@@ -107,20 +107,20 @@ export function TurnPhases() {
                       key={index}
                       className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3"
                     >
-                      <div className="flex items-start justify-between gap-2">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                         <h6 className="font-medium text-gray-900 dark:text-white">
                           {action.name}
                         </h6>
-                        <div className="flex gap-2 flex-shrink-0">
+                        <div className="flex flex-wrap gap-2">
                           {action.cost && (
                             <span className="text-xs px-2 py-1 bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300 rounded flex items-center gap-1">
-                              <Coins className="w-3 h-3" />
+                              <Coins className="w-3 h-3 flex-shrink-0" />
                               {action.cost}
                             </span>
                           )}
                           {action.limit && (
                             <span className="text-xs px-2 py-1 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 rounded flex items-center gap-1">
-                              <Users className="w-3 h-3" />
+                              <Users className="w-3 h-3 flex-shrink-0" />
                               {action.limit}
                             </span>
                           )}

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { gameRulesData } from '../../data/gameRules';
 import type { GlossaryTerm } from '../../types';
 import { Search, Coins, Brain, Users, Box, Cog, Map, Activity } from 'lucide-react';
@@ -33,7 +33,12 @@ const categoryColors: Record<GlossaryTerm['category'], string> = {
   status: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
 };
 
-export function GlossaryList() {
+interface GlossaryListProps {
+  scrollTargetId?: string | null;
+  onScrollComplete?: () => void;
+}
+
+export function GlossaryList({ scrollTargetId, onScrollComplete }: GlossaryListProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<GlossaryTerm['category'] | 'all'>('all');
 
@@ -78,6 +83,38 @@ export function GlossaryList() {
   }, [filteredTerms]);
 
   const letters = Object.keys(groupedTerms).sort((a, b) => a.localeCompare(b, 'ru'));
+
+  // Handle scroll to target term
+  useEffect(() => {
+    if (!scrollTargetId) return;
+
+    // Reset filters to ensure target element is visible
+    setSearchQuery('');
+    setActiveCategory('all');
+
+    // Use setTimeout to wait for DOM update after filter reset
+    // Don't clear timeout on cleanup to ensure scroll completes
+    const scrollTimeout = setTimeout(() => {
+      const element = document.getElementById(scrollTargetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.classList.add('ring-2', 'ring-rose-500', 'ring-offset-2');
+        setTimeout(() => {
+          element.classList.remove('ring-2', 'ring-rose-500', 'ring-offset-2');
+        }, 2000);
+      }
+      onScrollComplete?.();
+    }, 100);
+
+    // Store timeout ID in ref so it persists across re-renders
+    const timeoutId = scrollTimeout;
+    return () => {
+      // Only clear if component actually unmounts (scrollTargetId becomes null)
+      if (!scrollTargetId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [scrollTargetId, onScrollComplete]);
 
   return (
     <div className="space-y-6">
