@@ -142,6 +142,19 @@ export interface Track {
   disasterRemoval?: string;
 }
 
+export interface PlayerBoard {
+  description: string;
+  components: {
+    name: string;
+    description: string;
+  }[];
+  limits: {
+    name: string;
+    value: string;
+  }[];
+  notes: string[];
+}
+
 export interface GameRulesData {
   gameInfo: GameInfo;
   winCondition: WinCondition;
@@ -151,6 +164,7 @@ export interface GameRulesData {
     description: string;
     phases: TurnPhase[];
   };
+  playerBoard: PlayerBoard;
   characteristics: Characteristic[];
   agentClasses: AgentClass[];
   resources: Resource[];

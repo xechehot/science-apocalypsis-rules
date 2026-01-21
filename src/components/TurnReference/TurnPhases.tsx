@@ -57,16 +57,24 @@ export function TurnPhases() {
           <AlertCircle className="w-5 h-5" />
           Быстрая справка: Проверки
         </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-amber-700 dark:text-amber-300">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-amber-700 dark:text-amber-300">
           <div>
+            <p><strong>Базовые кубики:</strong> 2</p>
             <p><strong>Успех:</strong> 5 или 6 на кубике</p>
-            <p><strong>Критический успех:</strong> больше успехов, чем требуется</p>
+            <p><strong>Крит:</strong> успехов {'>'} сложности</p>
           </div>
           <div>
             <p><strong>Модификаторы треков:</strong></p>
-            <p>1-5 = +1 | 6-10 = +2 | 11+ = +3</p>
+            <p>1-5 → 1 | 6-10 → 2 | 11+ → 3</p>
+          </div>
+          <div>
+            <p><strong>Проверки Мира:</strong></p>
+            <p>Кубики = 2 + мод. Прогресса</p>
           </div>
         </div>
+        <p className="text-xs text-amber-600 dark:text-amber-400 mt-3">
+          Подробнее см. <strong>Правила → Проверки</strong>
+        </p>
       </div>
 
       {/* Phase Details */}
