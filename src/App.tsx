@@ -63,8 +63,20 @@ function AppContent() {
       </main>
 
       <footer className="border-t border-gray-200 dark:border-gray-800 py-4 mt-8">
-        <div className="max-w-6xl mx-auto px-4 text-center text-sm text-gray-500">
-          Помощник по правилам для настольной игры «Апокалипсис»
+        <div className="max-w-6xl mx-auto px-4 text-center text-sm text-gray-500 space-y-2">
+          <p>Помощник по правилам для настольной игры «Научный Апокалипсис»</p>
+          <p>
+            Неофициальное приложение, создано фан сообществом by xechehot
+          </p>
+          <p className="space-x-4">
+            <a href="https://scientificapocalypse.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300 underline">
+              Официальный сайт игры
+            </a>
+            <span>•</span>
+            <a href="https://github.com/xechehot/science-apocalypsis-rules" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300 underline">
+              GitHub
+            </a>
+          </p>
         </div>
       </footer>
     </div>
